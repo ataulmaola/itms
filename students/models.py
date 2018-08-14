@@ -1,8 +1,13 @@
 
 
 # Create your models here.
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser,User
 from django.db import models
+from django.urls import reverse
+
+from django.conf import settings
+
+
 dpt_choices=(('CSE','CSE'),('ETE','ETE'),('EEE','EEE'),('DBA','DBA'),('EBA','EBA'),('FME','FME'),)
 batch_choices=(('01','01'),('02','02'),('03','03'),('04','04'),('05','05'),
               ('06','06'),('07','07'),('08','08'),('09','09'),('10','10'),
@@ -29,5 +34,17 @@ class StudentRegistration(AbstractUser):
     gender=models.CharField(max_length=7,choices=gender_choices,default=MALE)
     dpt=models.CharField(max_length=5,choices=dpt_choices,default='CSE')
     batch_number=models.CharField(max_length=5,choices=batch_choices,default='39')
+
     def __str__(self):
-        return self.student_id
+        return self.username
+
+class GroupCreation(models.Model):
+    group_name= models.CharField(unique=True,max_length=71)
+    member_1 = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name = 'member_1')
+    member_2 = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name = 'member_2')
+    member_3 = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name = 'member_3')
+    def __str__(self):
+        return self.group_name
+
+    def get_absolute_url(self):
+        return reverse("create", kwargs={"id": self.id})

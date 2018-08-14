@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Create{% endblock %}
+
+{% block content %}
+
+<!-- {% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a> |
+  <a href="{% url 'signup' %}">signup</a>
+{% endif %} -->
+
+<h1>Create Group</h1>
+<form method='POST' action=''>{% csrf_token %}
+{{ form.as_p}}
+
+<input type="submit" value="Create Group" />
+</form>
+{% endblock %}
